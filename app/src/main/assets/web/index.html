@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>D.XENO.EXE — ULTIMATE ANIME & SHADOW GAMING SYSTEM</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/dxeno_photo.png">
+</head>
+<body data-theme="purple">
+
+  <!-- Scanlines & Ambient Particle Canvas -->
+  <div class="scanlines"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Global HUD Header -->
+  <header class="system-header">
+    <div class="brand-wrapper" onclick="window.appController.navigateTo('home')">
+      <div class="brand-glyph">DX</div>
+      <span class="brand-name">D.XENO.EXE</span>
+    </div>
+
+    <!-- Live Status Indicators -->
+    <div class="header-stats">
+      <div class="hud-pill rank-badge">
+        <span>⚔️</span><span id="hud-rank-val">E-Rank Hunter</span>
+      </div>
+      <div class="hud-pill xp-pill">
+        <span id="hud-level-val">Lv.1</span> • <span id="hud-xp-val">0/40 XP</span>
+      </div>
+      <div class="hud-pill energy-pill">
+        <span>⚡</span><span id="hud-energy-val">0</span>
+      </div>
+    </div>
+
+    <!-- Header Quick Actions -->
+    <div class="header-actions">
+      <button id="mute-toggle-btn" class="icon-btn" title="Toggle Sound">
+        🔊
+      </button>
+      <button class="icon-btn" onclick="window.characterManager.generateRandomCharacter()" title="Random Anime Summon">
+        🎲
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Menu Tabs -->
+  <nav class="system-nav-bar" id="main-nav">
+    <a href="#home" class="nav-link active" data-target="home">⚡ Home</a>
+    <a href="#universe" class="nav-link" data-target="universe">🌌 Anime Universe</a>
+    <a href="#arena" class="nav-link" data-target="arena">🎮 Gaming Arena</a>
+    <a href="#monarch" class="nav-link" data-target="monarch">👑 Shadow Monarch</a>
+    <a href="#motivation" class="nav-link" data-target="motivation">🔥 Motivation</a>
+    <a href="#achievements" class="nav-link" data-target="achievements">🏆 Achievements</a>
+    <a href="#settings" class="nav-link" data-target="settings">⚙️ Settings</a>
+    <a href="#about" class="nav-link" data-target="about">📜 About & Guide</a>
+  </nav>
+
+  <!-- Main Application Container -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         SECTION 1: HOME (Personal 3D Hero Showcase & System Intro)
+         ==================================================================== -->
+    <section id="section-home" class="page-section active">
+      <div class="hero-wrapper">
+        <!-- 3D PERSPECTIVE CARD SHOWCASE WITH USER PHOTO -->
+        <div class="photo-card-scene">
+          <div id="hero-photo-card" class="photo-card-3d">
+            <div class="photo-inner">
+              <!-- User Photograph (Natural & Recognizable) -->
+              <img src="assets/dxeno_photo.png" alt="D.XENO.EXE" class="hero-user-img" id="hero-profile-image">
+              <!-- Moving Holographic Glare Sheen -->
+              <div id="photo-glare-effect" class="photo-glare"></div>
+              <!-- CRITICAL: ON TOP OF PHOTO, ONLY "D.XENO.EXE" TEXT IS DISPLAYED -->
+              <div class="photo-exclusive-badge">
+                <h1>D.XENO.EXE</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outside Hero Content & Controls -->
+        <div class="hero-content">
+          <div class="hero-subtitle-bar">
+            <span class="system-tag">STATUS: AWAKENED</span>
+            <span class="system-tag" style="border-color: var(--cyan-neon); color: var(--cyan-neon);">SYSTEM VER. 3.0</span>
+            <span class="system-tag" style="border-color: var(--gold-monarch); color: var(--gold-monarch);">SHADOW SOVEREIGN</span>
+          </div>
+
+          <h2 class="hero-title">
+            THE ULTIMATE <span class="glow-cyan">ANIME</span> &amp; <span class="glow-purple">SHADOW</span> GAMING REALM
+          </h2>
+
+          <p class="hero-desc">
+            Welcome to <strong>D.XENO.EXE</strong>. Step into a futuristic dark-cyber universe where legendary anime fighters meet the omnipotent Shadow Monarch progression system. Extract shadow energy, overcome reflex &amp; survival trials, and command the legion of darkness.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-primary" onclick="window.appController.navigateTo('arena')">
+              ⚔️ ENTER GAMING ARENA
+            </button>
+            <button class="btn-secondary" onclick="window.appController.navigateTo('universe')">
+              🌌 ANIME ENCYCLOPEDIA
+            </button>
+            <button class="btn-secondary" onclick="window.appController.navigateTo('monarch')">
+              👑 MONARCH UPGRADES
+            </button>
+          </div>
+
+          <!-- Quick Stats HUD Bar -->
+          <div class="quick-stats-bar">
+            <div class="stat-box">
+              <span class="stat-label">Hunter Rank</span>
+              <span class="stat-value" id="quick-stat-rank" style="color: var(--cyan-neon);">E-Rank</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Shadow Energy</span>
+              <span class="stat-value" id="quick-stat-energy" style="color: var(--violet-bright);">0 ⚡</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Daily Streak</span>
+              <span class="stat-value" style="color: var(--gold-monarch);">🔥 1 Day</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Combat Mana</span>
+              <span class="stat-value" style="color: #38bdf8;">100 / 100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Daily Motivation Teaser -->
+      <div style="background: var(--bg-glass-card); border: 1px solid var(--bg-glass-border); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-top: 10px;">
+        <div>
+          <span style="color: var(--cyan-neon); font-size: 0.72rem; font-weight: 800; letter-spacing: 1px;">DAILY AWAKENING MOTIVATION</span>
+          <p style="color: #fff; font-size: 1rem; font-style: italic; margin-top: 4px;">
+            "I will protect what matters most, even if it means turning every obstacle into a shadow."
+          </p>
+        </div>
+        <button class="btn-mini" onclick="window.appController.navigateTo('motivation')">
+          VIEW ALL QUOTES →
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 2: ANIME UNIVERSE & ENCYCLOPEDIA
+         ==================================================================== -->
+    <section id="section-universe" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">COSMIC VAULT</span>
+        <h2>🌌 Anime Universe &amp; Character Encyclopedia</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Explore detailed biographies, power stats, combat abilities, and legendary weapons of iconic anime characters.
+        </p>
+      </div>
+
+      <!-- Universe Toolbar -->
+      <div class="universe-toolbar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="character-search-input" placeholder="Search Sung Jin-Woo, Luffy, Guts, Gojo..." oninput="window.characterManager.renderGrid('all', this.value)">
+        </div>
+
+        <div class="category-chips">
+          <button class="chip active" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('all')">All</button>
+          <button class="chip" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('Solo Leveling')">Solo Leveling</button>
+          <button class="chip" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('Shonen Legends')">Shonen Legends</button>
+          <button class="chip" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('Dark Fantasy')">Dark Fantasy</button>
+          <button class="chip" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('Supernatural')">Supernatural</button>
+          <button class="chip" onclick="document.querySelectorAll('.category-chips .chip').forEach(c=>c.classList.remove('active')); this.classList.add('active'); window.characterManager.renderGrid('favorites')">Favorites ❤️</button>
+        </div>
+      </div>
+
+      <!-- Characters Grid -->
+      <div id="character-grid-container" class="character-grid"></div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 3: GAMING ARENA (Playable Mini-Games)
+         ==================================================================== -->
+    <section id="section-arena" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">SHADOW COMBAT SIMULATOR</span>
+        <h2>🎮 Gaming Arena: 6 Playable Trials</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Test your reaction speed, tactical memory, survival reflexes, and intellect. Earn XP and Shadow Energy!
+        </p>
+      </div>
+
+      <!-- Active Game Playground Container -->
+      <div id="active-game-view" class="game-active-container">
+        <div class="game-top-bar">
+          <h3 id="active-game-title" style="color: var(--cyan-neon); font-size: 1.25rem;">MINI GAME</h3>
+          <button class="btn-mini" onclick="window.gamingArena.closeActiveGame()" style="background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; color: #fff;">
+            ✕ CLOSE GAME
+          </button>
+        </div>
+        <div id="active-game-body"></div>
+      </div>
+
+      <!-- 6 Mini-Games Hub Cards -->
+      <div class="games-hub-grid">
+        <!-- Game 1: Hunter Reflex Test -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('reflex')">
+          <span class="game-badge" style="background: rgba(0,240,255,0.15); color: var(--cyan-neon); border: 1px solid var(--cyan-neon);">SPEED TRIAL</span>
+          <h3>⚡ Hunter Reflex Test</h3>
+          <p>Reaction speed benchmark. Strike the glowing signal target the millisecond it emerges from the void.</p>
+          <span class="game-high-score">High Speed: <span id="stat-high-reflex">--</span> ms</span>
+          <button class="btn-mini" style="margin-top: auto;">PLAY TRIAL →</button>
+        </div>
+
+        <!-- Game 2: Rune Memory -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('rune')">
+          <span class="game-badge" style="background: rgba(168,85,247,0.15); color: var(--purple-glow); border: 1px solid var(--purple-glow);">MEMORY MATRIX</span>
+          <h3>🔮 Rune Memory</h3>
+          <p>Memorize the glowing sequence of elemental shadow runes and reproduce the pattern without error.</p>
+          <span class="game-high-score">Best Sequence: Round 5</span>
+          <button class="btn-mini" style="margin-top: auto;">PLAY TRIAL →</button>
+        </div>
+
+        <!-- Game 3: Shadow Clicker -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('clicker')">
+          <span class="game-badge" style="background: rgba(251,191,36,0.15); color: var(--gold-monarch); border: 1px solid var(--gold-monarch);">ARISE SYSTEM</span>
+          <h3>👑 Shadow Clicker</h3>
+          <p>Harvest energy from the Dimensional Gate. Summon loyal soldiers like Igris and Beru for passive gains.</p>
+          <span class="game-high-score">Army Power: Active</span>
+          <button class="btn-mini" style="margin-top: auto;">PLAY TRIAL →</button>
+        </div>
+
+        <!-- Game 4: Dodge Arena -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('dodge')">
+          <span class="game-badge" style="background: rgba(244,63,94,0.15); color: var(--crimson-accent); border: 1px solid var(--crimson-accent);">SURVIVAL TRIAL</span>
+          <h3>🛡️ Dodge Arena</h3>
+          <p>Guide your Cyan Core through a storm of red shadow lasers and spikes. Collect mana crystals to survive.</p>
+          <span class="game-high-score">Best Survival: Live Canvas</span>
+          <button class="btn-mini" style="margin-top: auto;">PLAY TRIAL →</button>
+        </div>
+
+        <!-- Game 5: Number Challenge -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('number')">
+          <span class="game-badge" style="background: rgba(56,189,248,0.15); color: var(--blue-electric); border: 1px solid var(--blue-electric);">INTELLECT GATE</span>
+          <h3>🔢 Number Challenge</h3>
+          <p>Solve rapid arithmetic puzzles under a ticking 30-second countdown to unlock intellectual hunter titles.</p>
+          <span class="game-high-score">Time Attack: 30s</span>
+          <button class="btn-mini" style="margin-top: auto;">PLAY TRIAL →</button>
+        </div>
+
+        <!-- Game 6: Daily Challenge -->
+        <div class="game-hub-card" onclick="window.gamingArena.showGame('daily')">
+          <span class="game-badge" style="background: rgba(168,85,247,0.25); color: var(--violet-bright); border: 1px solid var(--violet-bright);">DAILY BOUNTY</span>
+          <h3>🌟 Daily Challenge</h3>
+          <p>Unique daily objective tailored to test your mastery across all mini-games. Rewards massive bonus XP.</p>
+          <span class="game-high-score">Bounty: +500 XP, +250 Mana</span>
+          <button class="btn-mini" style="margin-top: auto;">VIEW BOUNTY →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 4: SHADOW MONARCH PROGRESSION SYSTEM
+         ==================================================================== -->
+    <section id="section-monarch" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">PLAYER STATUS &amp; ASCENSION</span>
+        <h2>👑 Shadow Monarch Progression System</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Track your hunter levels, rank progression from E-Rank to Sovereign, daily quests, and sovereign upgrades.
+        </p>
+      </div>
+
+      <!-- Monarch Hero Status Box -->
+      <div class="monarch-hero-status">
+        <div class="rank-sigil-display">
+          <div class="sigil-hex">👑</div>
+          <h3 id="monarch-rank-badge" style="color: var(--cyan-neon); font-size: 1.15rem; font-weight: 900;">E-Rank Hunter</h3>
+          <span id="monarch-level-badge" class="system-tag">LEVEL 1</span>
+        </div>
+
+        <div class="monarch-xp-section">
+          <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700;">
+            <span style="color: var(--text-muted);">MONARCH LEVEL PROGRESS</span>
+            <span id="monarch-xp-ratio" style="color: var(--cyan-neon); font-family: var(--font-mono);">0 / 40 XP</span>
+          </div>
+          <div class="xp-bar-outer">
+            <div id="monarch-xp-fill" class="xp-bar-inner" style="width: 0%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
+            <span>Current: E-Rank (Lv 1-5)</span>
+            <span>Next: D-Rank (Lv 6)</span>
+            <span>Apex: Sovereign D.XENO (Lv 100)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quests & Upgrades Grid -->
+      <div class="monarch-sections-grid">
+        <!-- Quests -->
+        <div>
+          <h3 style="color: var(--cyan-neon); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            📜 Daily Monarch Quests
+          </h3>
+          <div id="monarch-quests-container"></div>
+        </div>
+
+        <!-- Upgrade Shop -->
+        <div>
+          <h3 style="color: var(--purple-glow); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            💎 Sovereign Upgrade Shop
+          </h3>
+          <div id="monarch-upgrades-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 5: MOTIVATION
+         ==================================================================== -->
+    <section id="section-motivation" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">UNBREAKABLE SPIRIT</span>
+        <h2>🔥 Anime Motivational Awakening</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Power through self-doubt, pain, and challenges with quotes forged in the fires of anime legends.
+        </p>
+      </div>
+
+      <div class="quote-card">
+        <div style="font-size: 2.2rem; color: var(--cyan-neon); opacity: 0.6;">❝</div>
+        <p id="motivation-quote-text" class="quote-text">
+          "I will protect my family, even if it means turning every single enemy in this universe into a shadow."
+        </p>
+        <span id="motivation-quote-author" class="quote-author">— Sung Jin-Woo (Solo Leveling)</span>
+        <div style="margin-top: 10px;">
+          <button class="btn-primary" onclick="window.appController.randomQuote()">
+            ✨ AWAKEN NEW MOTIVATION
+          </button>
+        </div>
+      </div>
+
+      <!-- Philosophy Pillars -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+        <div style="background: var(--bg-tertiary); padding: 18px; border-radius: var(--radius-md); border-left: 3px solid var(--purple-glow);">
+          <h4 style="color: var(--purple-glow); font-size: 0.95rem; margin-bottom: 6px;">The Solo Leveler Mentality</h4>
+          <p style="color: var(--text-muted); font-size: 0.82rem; line-height: 1.5;">
+            Start as the weakest E-Rank. Emphasize continuous daily progression over sudden miraculous luck. You are your own system.
+          </p>
+        </div>
+        <div style="background: var(--bg-tertiary); padding: 18px; border-radius: var(--radius-md); border-left: 3px solid var(--crimson-accent);">
+          <h4 style="color: var(--crimson-accent); font-size: 0.95rem; margin-bottom: 6px;">The Struggler's Resolve</h4>
+          <p style="color: var(--text-muted); font-size: 0.82rem; line-height: 1.5;">
+            Like Guts confronting impossible odds, persist when destiny is aligned against you. Relentless grit shatters predetermined limits.
+          </p>
+        </div>
+        <div style="background: var(--bg-tertiary); padding: 18px; border-radius: var(--radius-md); border-left: 3px solid var(--cyan-neon);">
+          <h4 style="color: var(--cyan-neon); font-size: 0.95rem; margin-bottom: 6px;">The Limitless Focus</h4>
+          <p style="color: var(--text-muted); font-size: 0.82rem; line-height: 1.5;">
+            Maintain supreme calm amid surrounding chaos. When your vision is clear and unwavering, negative noise cannot penetrate your domain.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 6: ACHIEVEMENTS
+         ==================================================================== -->
+    <section id="section-achievements" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">HUNTER MEDALS &amp; MILESTONES</span>
+        <h2>🏆 Unlocked Badges &amp; Hall of Glory</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Accomplish combat feats in mini-games and raise your hunter level to unlock prestigious badges.
+        </p>
+      </div>
+
+      <div id="achievements-list-container" class="achievements-grid"></div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 7: SETTINGS & PREFERENCES
+         ==================================================================== -->
+    <section id="section-settings" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">SYSTEM CONFIGURATION</span>
+        <h2>⚙️ System Settings &amp; Personalization</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Adjust audiovisual intensity, visual themes, sound effects, or manage local save data.
+        </p>
+      </div>
+
+      <div class="settings-panel">
+        <!-- Master Sound -->
+        <div class="setting-row">
+          <div>
+            <strong style="color: #fff; font-size: 0.95rem;">Synthesized Audio Volume</strong>
+            <p style="color: var(--text-dim); font-size: 0.8rem;">Controls procedural Web Audio sound effect levels.</p>
+          </div>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" style="width: 140px; accent-color: var(--cyan-neon);">
+        </div>
+
+        <!-- Visual Theme -->
+        <div class="setting-row">
+          <div>
+            <strong style="color: #fff; font-size: 0.95rem;">Cyber Theme Palette</strong>
+            <p style="color: var(--text-dim); font-size: 0.8rem;">Switch between signature dark neon presets.</p>
+          </div>
+          <select id="theme-select" style="background: var(--bg-tertiary); color: #fff; border: 1px solid var(--bg-glass-border); padding: 8px 12px; border-radius: var(--radius-sm); outline: none;">
+            <option value="purple">Electric Purple &amp; Cyan (Default)</option>
+            <option value="void">Void Shadow Black</option>
+            <option value="crimson">Crimson Monarch Blood</option>
+          </select>
+        </div>
+
+        <!-- Animation Intensity -->
+        <div class="setting-row">
+          <div>
+            <strong style="color: #fff; font-size: 0.95rem;">Animation Intensity</strong>
+            <p style="color: var(--text-dim); font-size: 0.8rem;">Toggle ambient shadow particles and 3D tilt effects for battery savings.</p>
+          </div>
+          <select id="anim-select" style="background: var(--bg-tertiary); color: #fff; border: 1px solid var(--bg-glass-border); padding: 8px 12px; border-radius: var(--radius-sm); outline: none;">
+            <option value="high">High (Full Particles &amp; 3D Tilt)</option>
+            <option value="medium">Medium (Particles Only)</option>
+            <option value="low">Low (Battery &amp; Reduced Motion)</option>
+          </select>
+        </div>
+
+        <!-- Reset Data -->
+        <div class="setting-row" style="border-bottom: none;">
+          <div>
+            <strong style="color: var(--crimson-accent); font-size: 0.95rem;">Reset System Progress</strong>
+            <p style="color: var(--text-dim); font-size: 0.8rem;">Clear all local stats, shadow soldiers, XP, and reset to Level 1.</p>
+          </div>
+          <button class="btn-mini" style="background: rgba(244,63,94,0.15); border-color: #f43f5e; color: #fff; padding: 8px 16px;" onclick="window.appController.confirmReset()">
+            RESET PROGRESS
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 8: ABOUT & DEPLOYMENT GUIDE
+         ==================================================================== -->
+    <section id="section-about" class="page-section">
+      <div class="section-head">
+        <span class="section-tag">BRAND IDENTITY &amp; DEPLOYMENT</span>
+        <h2>📜 About D.XENO.EXE &amp; Hosting Guide</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Architecture information and step-by-step instructions for Android HopWeb, GitHub Pages, and Netlify hosting.
+        </p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>👑 The D.XENO.EXE Brand Identity</h4>
+        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6;">
+          <strong>D.XENO.EXE</strong> is a personalized anime and shadow gaming system featuring the user's authentic identity at its center. Engineered with zero external library bloat, procedural Web Audio, and responsive CSS grids, it delivers high performance on Android mobile devices, tablets, and desktop workstations.
+        </p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>📱 1. Android HopWeb Setup Instructions</h4>
+        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6;">
+          To run, edit, or test this complete website on Android using the <strong>HopWeb</strong> mobile code editor:
+        </p>
+        <ol style="padding-left: 20px; color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; margin-top: 6px;">
+          <li>Install <strong>HopWeb</strong> from Google Play Store or APK mirror.</li>
+          <li>Create a new project named <code>D.XENO.EXE</code>.</li>
+          <li>Copy the folder structure: <code>index.html</code> at root, plus <code>css/</code>, <code>js/</code>, and <code>assets/</code>.</li>
+          <li>Place your photograph as <code>assets/dxeno_photo.png</code>.</li>
+          <li>Tap the <strong>Run / Preview</strong> button in HopWeb to launch the interactive site instantly on your phone with local storage and audio support!</li>
+        </ol>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>🚀 2. Free Netlify Deployment Instructions</h4>
+        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6;">
+          Deploy in 30 seconds with 100% free SSL and instant global CDN:
+        </p>
+        <ol style="padding-left: 20px; color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; margin-top: 6px;">
+          <li>Visit <strong>app.netlify.com/drop</strong> in any browser.</li>
+          <li>Drag and drop the folder containing <code>index.html</code>, <code>css/</code>, <code>js/</code>, and <code>assets/</code> directly into the upload area.</li>
+          <li>Netlify will instantly generate a live public URL (e.g. <code>dxeno-exe.netlify.app</code>).</li>
+          <li>Optional: Go to <em>Site Settings &gt; Change site name</em> to customize your domain to <code>dxeno-exe.netlify.app</code>.</li>
+        </ol>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>🐙 3. Free GitHub Pages Deployment</h4>
+        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6;">
+          Host directly from a free GitHub repository:
+        </p>
+        <ol style="padding-left: 20px; color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; margin-top: 6px;">
+          <li>Create a new public GitHub repository named <code>dxeno-exe</code>.</li>
+          <li>Push or upload <code>index.html</code>, <code>css/</code>, <code>js/</code>, and <code>assets/</code> to the <code>main</code> branch.</li>
+          <li>In your repository, navigate to <strong>Settings &gt; Pages</strong>.</li>
+          <li>Under <em>Branch</em>, select <code>main</code> and folder <code>/ (root)</code>, then click <strong>Save</strong>.</li>
+          <li>Your site is live within 60 seconds at <code>https://yourusername.github.io/dxeno-exe/</code>!</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       MODALS & DIALOGS
+       ==================================================================== -->
+
+  <!-- Character Detail Modal -->
+  <div id="character-detail-modal" class="system-modal-backdrop">
+    <div class="system-modal">
+      <div class="modal-header">
+        <h3 id="char-modal-title">Character Details</h3>
+        <button class="modal-close-btn" onclick="window.appController.closeModal('character-detail-modal')">✕</button>
+      </div>
+      <div id="char-modal-content" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Comparison Arena Modal -->
+  <div id="comparison-modal" class="system-modal-backdrop">
+    <div class="system-modal">
+      <div class="modal-header">
+        <h3>⚔️ 1v1 Character Attribute Comparison</h3>
+        <button class="modal-close-btn" onclick="window.appController.closeModal('comparison-modal')">✕</button>
+      </div>
+      <div id="compare-modal-content" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal -->
+  <div id="reset-confirm-modal" class="system-modal-backdrop">
+    <div class="system-modal" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="color: var(--crimson-accent);">⚠️ Confirm System Reset</h3>
+        <button class="modal-close-btn" onclick="window.appController.closeModal('reset-confirm-modal')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p style="color: var(--text-main); font-size: 0.95rem;">
+          Are you sure you want to reset all <strong>D.XENO.EXE</strong> progress? This will reset your Hunter Level to 1, clear all Shadow Energy, and re-lock upgrades.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 12px; margin-top: 14px;">
+          <button class="btn-secondary" onclick="window.appController.closeModal('reset-confirm-modal')">
+            CANCEL
+          </button>
+          <button class="btn-primary" style="background: #e11d48; border-color: #f43f5e;" onclick="window.appController.executeReset()">
+            CONFIRM RESET
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification -->
+  <div id="system-toast">
+    <span id="toast-message">Notification</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/monarch.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

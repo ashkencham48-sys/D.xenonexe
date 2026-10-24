@@ -1,0 +1,6 @@
+{
+  "name": "D.XENO.EXE",
+  "description": "D.XENO.EXE - Ultimate Anime & Shadow Gaming System featuring personal 3D hero showcase, anime encyclopedia, and playable shadow mini-games.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
